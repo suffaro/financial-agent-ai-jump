@@ -43,7 +43,7 @@ services:
       - key: GOOGLE_CLIENT_SECRET
         sync: false
       - key: GOOGLE_CALLBACK_URL
-        value: https://financial-advisor-ai.onrender.com/api/auth/google/callback
+        value: https://financial-agent-ai-jump.onrender.com/api/auth/google/callback
       - key: OPENAI_API_KEY
         sync: false
       - key: HUBSPOT_CLIENT_ID
@@ -51,23 +51,23 @@ services:
       - key: HUBSPOT_CLIENT_SECRET
         sync: false
       - key: HUBSPOT_REDIRECT_URI
-        value: https://financial-advisor-ai.onrender.com/api/auth/hubspot/callback
+        value: https://financial-agent-ai-jump.onrender.com/api/auth/hubspot/callback
       - key: JWT_SECRET
         generateValue: true
       - key: SESSION_SECRET
         generateValue: true
       - key: FRONTEND_URL
-        value: https://financial-advisor-ai.onrender.com
+        value: https://financial-agent-ai-jump.onrender.com
       - key: BACKEND_URL
-        value: https://financial-advisor-ai.onrender.com
+        value: https://financial-agent-ai-jump.onrender.com
       - key: BASE_URL
-        value: https://financial-advisor-ai.onrender.com
+        value: https://financial-agent-ai-jump.onrender.com
       - key: GMAIL_WEBHOOK_URL
-        value: https://financial-advisor-ai.onrender.com/api/webhooks/gmail
+        value: https://financial-agent-ai-jump.onrender.com/api/webhooks/gmail
       - key: CALENDAR_WEBHOOK_URL
-        value: https://financial-advisor-ai.onrender.com/api/webhooks/calendar
+        value: https://financial-agent-ai-jump.onrender.com/api/webhooks/calendar
       - key: HUBSPOT_WEBHOOK_URL
-        value: https://financial-advisor-ai.onrender.com/api/webhooks/hubspot
+        value: https://financial-agent-ai-jump.onrender.com/api/webhooks/hubspot
 
 databases:
   - name: financial-advisor-db
