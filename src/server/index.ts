@@ -90,15 +90,21 @@ app.use('/api/webhooks', webhookRoutes);
 
 if (process.env['NODE_ENV'] === 'production') {
     const buildPath = path.join(process.cwd(), 'client', 'build');
-
+    
+    // Serve static files
     app.use(express.static(buildPath));
+}
 
+app.use(errorHandler);
+
+// Handle React Router routes - this must come AFTER error handler
+if (process.env['NODE_ENV'] === 'production') {
+    const buildPath = path.join(process.cwd(), 'client', 'build');
+    
     app.get('*', (req, res) => {
         res.sendFile(path.join(buildPath, 'index.html'));
     });
 }
-
-app.use(errorHandler);
 
 initializeWebhooks();
 
