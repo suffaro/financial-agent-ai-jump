@@ -9,21 +9,24 @@ services:
       npm install
       echo "📦 Installing client dependencies..."
       cd client && npm install && cd ..
+      echo "🔧 Building client first..."
+      npm run build:client
       echo "🔧 Building server..."
       npm run build:server
-      echo "🔧 Building client..."
-      npm run build:client
       echo "📊 Generating Prisma client..."
       npx prisma generate
+      echo "🔍 Verifying client build exists..."
+      if [ ! -d "client/build" ]; then
+        echo "❌ ERROR: client/build directory missing!"
+        exit 1
+      fi
+      if [ ! -f "client/build/index.html" ]; then
+        echo "❌ ERROR: client/build/index.html missing!"
+        exit 1
+      fi
+      echo "✅ Client build verified"
       echo "🔍 Checking build output..."
-      ls -la
-      echo "🔍 Checking for client build..."
-      ls -la client/ 2>/dev/null || echo "No client directory found"
-      ls -la client/build/ 2>/dev/null || echo "No client/build directory found"
-      ls -la client/dist/ 2>/dev/null || echo "No client/dist directory found"
-      echo "🔍 Checking for server build..."
-      ls -la dist/ 2>/dev/null || echo "No dist directory found"
-      ls -la dist/server/ 2>/dev/null || echo "No dist/server directory found"
+      ls -la client/build/
       echo "=== Build Process Complete ==="
     startCommand: npm start
     envVars:
