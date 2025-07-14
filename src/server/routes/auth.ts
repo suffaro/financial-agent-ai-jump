@@ -28,7 +28,7 @@ router.get('/google/callback',
             const user = await prisma.user.findUnique({ where: { id: req.user.id } });
 
             if (!user) {
-                const baseUrl = process.env.FRONTEND_URL || 'http://localhost:3002';
+                const baseUrl = process.env.FRONTEND_URL || (process.env.NODE_ENV === 'production' ? 'https://financial-agent-ai-jump.onrender.com' : 'http://localhost:3002');
                 return res.redirect(`${baseUrl}/login?error=user_not_found`);
             }
 
@@ -39,13 +39,13 @@ router.get('/google/callback',
             );
 
 
-            const baseUrl = process.env.FRONTEND_URL || 'http://localhost:3002';
+            const baseUrl = process.env.FRONTEND_URL || (process.env.NODE_ENV === 'production' ? 'https://financial-agent-ai-jump.onrender.com' : 'http://localhost:3002');
             const redirectUrl = `${baseUrl}/auth-callback?token=${token}`;
 
             res.redirect(redirectUrl);
         } catch (error) {
             console.error('Google OAuth callback error:', error);
-            const baseUrl = process.env.FRONTEND_URL || 'http://localhost:3002';
+            const baseUrl = process.env.FRONTEND_URL || (process.env.NODE_ENV === 'production' ? 'https://financial-agent-ai-jump.onrender.com' : 'http://localhost:3002');
             res.redirect(`${baseUrl}/login?error=auth_failed`);
         }
     }
@@ -87,7 +87,7 @@ router.get('/hubspot', (req: Request, res: Response) => {
 router.get('/hubspot/callback', async (req: Request, res: Response) => {
     try {
         const { code, state, error } = req.query;
-        const baseUrl = process.env.FRONTEND_URL || 'http://localhost:3002';
+        const baseUrl = process.env.FRONTEND_URL || (process.env.NODE_ENV === 'production' ? 'https://financial-agent-ai-jump.onrender.com' : 'http://localhost:3002');
 
         if (error) {
             console.error('HubSpot OAuth error:', error);
@@ -173,11 +173,11 @@ router.get('/hubspot/callback', async (req: Request, res: Response) => {
             { expiresIn: '7d' }
         );
 
-        const redirectUrl = `${baseUrl}/auth-callback?token=${newToken}`;
+        const redirectUrl = `${baseUrl}/integrations?success=hubspot_connected`;
         res.redirect(redirectUrl);
     } catch (error) {
         console.error('HubSpot OAuth callback error:', error);
-        const baseUrl = process.env.FRONTEND_URL || 'http://localhost:3002';
+        const baseUrl = process.env.FRONTEND_URL || (process.env.NODE_ENV === 'production' ? 'https://financial-agent-ai-jump.onrender.com' : 'http://localhost:3002');
         res.redirect(`${baseUrl}/integrations?error=hubspot_auth_failed`);
     }
 });
