@@ -3,11 +3,34 @@ services:
     name: financial-advisor-ai
     env: node
     plan: starter
-    buildCommand: npm run install:all && npm run build && npx prisma generate && npx prisma db push --accept-data-loss
+    buildCommand: |
+      echo "=== Build Process Started ==="
+      echo "📦 Installing root dependencies..."
+      npm install
+      echo "📦 Installing client dependencies..."
+      cd client && npm install && cd ..
+      echo "🔧 Building server..."
+      npm run build:server
+      echo "🔧 Building client..."
+      npm run build:client
+      echo "📊 Generating Prisma client..."
+      npx prisma generate
+      echo "🔍 Checking build output..."
+      ls -la
+      echo "🔍 Checking for client build..."
+      ls -la client/ 2>/dev/null || echo "No client directory found"
+      ls -la client/build/ 2>/dev/null || echo "No client/build directory found"
+      ls -la client/dist/ 2>/dev/null || echo "No client/dist directory found"
+      echo "🔍 Checking for server build..."
+      ls -la dist/ 2>/dev/null || echo "No dist directory found"
+      ls -la dist/server/ 2>/dev/null || echo "No dist/server directory found"
+      echo "=== Build Process Complete ==="
     startCommand: npm start
     envVars:
       - key: NODE_ENV
         value: production
+      - key: PORT
+        value: 10000
       - key: DATABASE_URL
         fromDatabase:
           name: financial-advisor-db
@@ -42,3 +65,9 @@ services:
         value: https://financial-advisor-ai.onrender.com/api/webhooks/calendar
       - key: HUBSPOT_WEBHOOK_URL
         value: https://financial-advisor-ai.onrender.com/api/webhooks/hubspot
+
+databases:
+  - name: financial-advisor-db
+    databaseName: financial_advisor_ai
+    user: financial_advisor_user
+    plan: free
