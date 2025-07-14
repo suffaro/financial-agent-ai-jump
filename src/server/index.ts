@@ -6,6 +6,7 @@ import rateLimit from 'express-rate-limit';
 import session from 'express-session';
 import passport from 'passport';
 import dotenv from 'dotenv';
+import path from 'path';
 import { PrismaClient } from '@prisma/client';
 import { spawn } from 'child_process';
 
@@ -38,7 +39,6 @@ const limiter = rateLimit({
     message: 'Too many requests from this IP, please try again later.'
 });
 
-// Middleware setup
 app.use(helmet());
 app.use(cors({
     origin: process.env['NODE_ENV'] === 'production'
@@ -65,11 +65,11 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Initialize auth strategies
+
 initializeGoogleAuth(passport);
 initializeHubspotAuth(passport);
 
-// Health check endpoint
+
 app.get('/health', (req, res) => {
     res.json({
         status: 'ok',
@@ -88,22 +88,22 @@ app.use('/api/instructions', authenticateToken, instructionRoutes);
 app.use('/api/settings', authenticateToken, settingsRoutes);
 app.use('/api/webhooks', webhookRoutes);
 
-// Serve static files in production
 if (process.env['NODE_ENV'] === 'production') {
-    app.use(express.static('client/build'));
+    const buildPath = path.join(process.cwd(), 'client', 'build');
+
+    app.use(express.static(buildPath));
+
     app.get('*', (req, res) => {
-        res.sendFile('index.html', { root: 'client/build' });
+        res.sendFile(path.join(buildPath, 'index.html'));
     });
 }
 
 app.use(errorHandler);
 
-// Initialize webhooks
 initializeWebhooks();
 
 const PORT = process.env['PORT'] || 3001;
 
-// Database initialization function
 async function initializeDatabase() {
     try {
         console.log('🔧 Initializing database...');
