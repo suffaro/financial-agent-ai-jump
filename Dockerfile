@@ -7,14 +7,14 @@ WORKDIR /app
 COPY package*.json ./
 COPY client/package*.json ./client/
 
+COPY . .
+
 RUN npm ci
 
 WORKDIR /app/client
 RUN npm ci
 
 WORKDIR /app
-
-COPY . .
 
 RUN npx prisma generate
 
