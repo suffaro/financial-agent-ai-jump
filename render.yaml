@@ -3,8 +3,8 @@ services:
     name: financial-advisor-ai
     env: node
     plan: starter
-    buildCommand: npm run install:all && npm run build
-    startCommand: npx prisma db push && npm start
+    buildCommand: npm run install:all && npm run build && npx prisma db push
+    startCommand: npm start
     envVars:
       - key: NODE_ENV
         value: production
@@ -42,9 +42,3 @@ services:
         value: https://financial-advisor-ai.onrender.com/api/webhooks/calendar
       - key: HUBSPOT_WEBHOOK_URL
         value: https://financial-advisor-ai.onrender.com/api/webhooks/hubspot
-
-databases:
-  - name: financial-advisor-db
-    databaseName: financial_advisor_ai
-    user: financial_advisor_user
-    plan: starter 
