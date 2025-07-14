@@ -1,0 +1,50 @@
+services:
+  - type: web
+    name: financial-advisor-ai
+    env: node
+    plan: starter
+    buildCommand: npm run install:all && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: financial-advisor-db
+          property: connectionString
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: GOOGLE_CALLBACK_URL
+        value: https://financial-advisor-ai.onrender.com/api/auth/google/callback
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: HUBSPOT_CLIENT_ID
+        sync: false
+      - key: HUBSPOT_CLIENT_SECRET
+        sync: false
+      - key: HUBSPOT_REDIRECT_URI
+        value: https://financial-advisor-ai.onrender.com/api/auth/hubspot/callback
+      - key: JWT_SECRET
+        generateValue: true
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: FRONTEND_URL
+        value: https://financial-advisor-ai.onrender.com
+      - key: BACKEND_URL
+        value: https://financial-advisor-ai.onrender.com
+      - key: BASE_URL
+        value: https://financial-advisor-ai.onrender.com
+      - key: GMAIL_WEBHOOK_URL
+        value: https://financial-advisor-ai.onrender.com/api/webhooks/gmail
+      - key: CALENDAR_WEBHOOK_URL
+        value: https://financial-advisor-ai.onrender.com/api/webhooks/calendar
+      - key: HUBSPOT_WEBHOOK_URL
+        value: https://financial-advisor-ai.onrender.com/api/webhooks/hubspot
+
+databases:
+  - name: financial-advisor-db
+    databaseName: financial_advisor_ai
+    user: financial_advisor_user
+    plan: starter 

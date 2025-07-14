@@ -1,0 +1,40 @@
+services:
+  app:
+    build: .
+    ports:
+      - "3002:3001"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://postgres:password@db:5432/financial_advisor_ai
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+      - GOOGLE_CALLBACK_URL=${GOOGLE_CALLBACK_URL}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - HUBSPOT_CLIENT_ID=${HUBSPOT_CLIENT_ID}
+      - HUBSPOT_CLIENT_SECRET=${HUBSPOT_CLIENT_SECRET}
+      - HUBSPOT_REDIRECT_URI=${HUBSPOT_REDIRECT_URI}
+      - JWT_SECRET=${JWT_SECRET}
+      - SESSION_SECRET=${SESSION_SECRET}
+      - GROQ_API_KEY=${GROQ_API_KEY}
+      - HUGGINGFACE_API_KEY=${HUGGINGFACE_API_KEY}
+    depends_on:
+      - db
+    command: sh -c "npx wait-port db:5432 && npx prisma db execute --file ./init-vector.sql && npx prisma db push --accept-data-loss && npm start"
+    volumes:
+      - /app/node_modules
+      - /app/client/node_modules
+
+  db:
+    image: pgvector/pgvector:pg15
+    environment:
+      - POSTGRES_DB=financial_advisor_ai
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    ports:
+      - "5435:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    command: postgres -c 'shared_preload_libraries=vector'
+
+volumes:
+  postgres_data: 
