@@ -15,7 +15,8 @@
         "install:all": "npm install && cd client && npm install",
         "db:migrate": "npx prisma migrate dev",
         "db:generate": "npx prisma generate",
-        "db:studio": "npx prisma studio"
+        "db:studio": "npx prisma studio",
+        "db:push": "npx prisma db push --accept-data-loss"
     },
     "keywords": [
         "ai",
