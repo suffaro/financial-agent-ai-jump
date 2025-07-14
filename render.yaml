@@ -3,7 +3,7 @@ services:
     name: financial-advisor-ai
     env: node
     plan: starter
-    buildCommand: npm run install:all && npm run build && npx prisma db push
+    buildCommand: npm run install:all && npm run build && npx prisma generate && npx prisma db push --accept-data-loss
     startCommand: npm start
     envVars:
       - key: NODE_ENV
