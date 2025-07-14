@@ -61,9 +61,6 @@ An intelligent AI assistant that integrates Gmail, Google Calendar, and HubSpot 
 - **Webhook System:** Real-time updates (partial implementation)
 
 
-
-
-
 ## 🚀 Features Implemented
 
 ### ✅ Core Features:
@@ -138,18 +135,28 @@ GROQ_API_KEY=your_groq_api_key
 HUGGINGFACE_API_KEY=your_huggingface_api_key
 ```
 
-### Quick Start:
+### Quick Start (Docker):
+The recommended way to run the project is using Docker Compose.
 ```bash
-# Install dependencies
+# Build and start all services in the background.
+# This command also handles database setup and migrations.
+docker-compose up --build -d
+```
+The application will then be available at `http://localhost:3002`.
+
+### Manual Setup (without Docker):
+If you prefer to run the services manually on your host machine:
+```bash
+# 1. Install dependencies for both server and client
 npm run install:all
 
-# Start with Docker
-docker-compose up -d
+# 2. Ensure you have a PostgreSQL database with pgvector running
+#    and the DATABASE_URL is set in your .env file.
 
-# Run migrations
+# 3. Run database migrations
 npm run db:migrate
 
-# Start development
+# 4. Start the backend and frontend servers concurrently
 npm run dev
 ```
 
@@ -166,8 +173,6 @@ Ready for deployment on Render with:
 - Environment variable configuration
 - OAuth callback URL management
 - Production-ready builds with optimizations
-
-See `DEPLOYMENT.md` for detailed deployment instructions.
 
 ## 🔧 Technical Architecture Details
 
