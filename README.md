@@ -1,3 +1,10 @@
+# LINK TO THE APPLICATION
+
+https://financial-agent-ai-jump.onrender.com
+
+I used wrong link in the email, I'm sorry about that.
+
+
 # Financial Advisor AI Agent
 
 An intelligent AI assistant that integrates Gmail, Google Calendar, and HubSpot to provide comprehensive financial advisory support through natural language interactions.
